@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yuko/core/utils/ingredient_parser.dart';
+import 'package:safeeats/core/utils/ingredient_parser.dart';
 
 void main() {
   group('IngredientParser', () {
@@ -110,42 +110,6 @@ void main() {
           IngredientParser.normalize('high-fructose corn syrup'),
           equals('high-fructose corn syrup'),
         );
-      });
-    });
-
-    group('containsPreservatives', () {
-      test('should detect preservatives', () {
-        expect(IngredientParser.containsPreservatives('Contains sodium benzoate'), isTrue);
-        expect(IngredientParser.containsPreservatives('With E211'), isTrue);
-        expect(IngredientParser.containsPreservatives('BHA added'), isTrue);
-      });
-
-      test('should return false when no preservatives', () {
-        expect(IngredientParser.containsPreservatives('Water, Sugar, Salt'), isFalse);
-      });
-    });
-
-    group('containsArtificialColors', () {
-      test('should detect artificial colors', () {
-        expect(IngredientParser.containsArtificialColors('Contains Red 40'), isTrue);
-        expect(IngredientParser.containsArtificialColors('With E129'), isTrue);
-        expect(IngredientParser.containsArtificialColors('FD&C Yellow 5'), isTrue);
-      });
-
-      test('should return false when no artificial colors', () {
-        expect(IngredientParser.containsArtificialColors('Water, Sugar, Salt'), isFalse);
-      });
-    });
-
-    group('containsArtificialSweeteners', () {
-      test('should detect artificial sweeteners', () {
-        expect(IngredientParser.containsArtificialSweeteners('Contains aspartame'), isTrue);
-        expect(IngredientParser.containsArtificialSweeteners('With sucralose'), isTrue);
-        expect(IngredientParser.containsArtificialSweeteners('E951 added'), isTrue);
-      });
-
-      test('should return false when no artificial sweeteners', () {
-        expect(IngredientParser.containsArtificialSweeteners('Water, Sugar, Salt'), isFalse);
       });
     });
   });

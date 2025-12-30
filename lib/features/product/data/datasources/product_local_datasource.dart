@@ -5,7 +5,6 @@ import '../models/product_model.dart';
 abstract class ProductLocalDataSource {
   Future<ProductModel?> getCachedProduct(String barcode);
   Future<void> cacheProduct(ProductModel product);
-  Future<void> clearCache();
 }
 
 class ProductLocalDataSourceImpl implements ProductLocalDataSource {
@@ -61,15 +60,6 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
       );
     } catch (e) {
       throw CacheException('Failed to cache product: ${e.toString()}');
-    }
-  }
-
-  @override
-  Future<void> clearCache() async {
-    try {
-      await database.delete('cached_products');
-    } catch (e) {
-      throw CacheException('Failed to clear cache: ${e.toString()}');
     }
   }
 }

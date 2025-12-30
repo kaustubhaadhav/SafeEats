@@ -15,5 +15,5 @@ void main() async {
   // Initialize dependency injection
   await di.init();
   
-  runApp(const YukoApp());
+  runApp(const SafeEatsApp());
 }

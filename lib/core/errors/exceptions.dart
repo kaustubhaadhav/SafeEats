@@ -24,3 +24,12 @@ class NotFoundException implements Exception {
   @override
   String toString() => message;
 }
+
+class InvalidBarcodeException implements Exception {
+  final String message;
+  
+  const InvalidBarcodeException([this.message = 'Invalid barcode format']);
+  
+  @override
+  String toString() => message;
+}

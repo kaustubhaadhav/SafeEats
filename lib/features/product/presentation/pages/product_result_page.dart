@@ -176,6 +176,13 @@ class _LoadedView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
+                // Missing Ingredients Warning
+                if (product.ingredientsText == null ||
+                    product.ingredientsText!.isEmpty) ...[
+                  _MissingIngredientsWarning(),
+                  const SizedBox(height: 16),
+                ],
+
                 // Detected Carcinogens Section
                 if (state.hasCarcinogens) ...[
                   Text(
@@ -325,6 +332,62 @@ class _SafeProductBanner extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Based on IARC and Prop 65 databases',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MissingIngredientsWarning extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.orange.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.orange.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              Icons.warning_amber,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Missing Ingredients',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange.shade800,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'This product has no ingredient data available. '
+                  'We cannot check for potential carcinogens without ingredient information.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

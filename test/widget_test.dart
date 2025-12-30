@@ -1,30 +1,21 @@
-// This is a basic Flutter widget test.
+// This file is intentionally left minimal.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Widget and integration tests for SafeEats app should be added here.
+// For now, unit tests are located in:
+//   - test/core/utils/ingredient_parser_test.dart
+//   - test/core/utils/carcinogen_matcher_test.dart
+//   - test/features/product/presentation/bloc/product_bloc_test.dart
+//
+// To run all tests: flutter test
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:yuko/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  group('SafeEats App', () {
+    test('placeholder for future widget tests', () {
+      // Widget tests require more complex setup with dependency injection
+      // and mock providers. This placeholder ensures the test file is valid.
+      expect(true, isTrue);
+    });
   });
 }

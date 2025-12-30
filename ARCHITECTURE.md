@@ -1,8 +1,8 @@
-# Yuko - Food Carcinogen Scanner App
+# SafeEats - Food Carcinogen Scanner App
 
 ## Overview
 
-Yuko is a Flutter-based cross-platform mobile application that scans food product barcodes, retrieves ingredient information from Open Food Facts API, and analyzes ingredients for known carcinogens using IARC classifications and California Prop 65 data.
+SafeEats is a Flutter-based cross-platform mobile application that scans food product barcodes, retrieves ingredient information from Open Food Facts API, and analyzes ingredients for known carcinogens using IARC classifications and California Prop 65 data.
 
 ## Tech Stack
 

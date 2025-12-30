@@ -4,6 +4,4 @@ import '../entities/product.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, Product>> getProductByBarcode(String barcode);
-  Future<Either<Failure, void>> cacheProduct(Product product);
-  Future<Either<Failure, Product?>> getCachedProduct(String barcode);
 }

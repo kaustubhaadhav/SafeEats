@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/utils/barcode_validator.dart';
 import '../../../carcinogen/domain/entities/carcinogen.dart';
 import '../../../carcinogen/domain/usecases/check_ingredients_for_carcinogens.dart';
 import '../../../history/domain/entities/scan_history.dart';
@@ -28,7 +29,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     emit(state.copyWith(status: ProductStatus.loading));
 
-    final productResult = await getProductByBarcode(event.barcode);
+    // Validate barcode format first
+    final validationResult = BarcodeValidator.validate(event.barcode);
+    if (!validationResult.isValid) {
+      emit(state.copyWith(
+        status: ProductStatus.error,
+        errorMessage: validationResult.error,
+      ));
+      return;
+    }
+
+    final barcodeToSearch = validationResult.cleanedBarcode ?? event.barcode;
+    final productResult = await getProductByBarcode(barcodeToSearch);
 
     await productResult.fold(
       (failure) async {

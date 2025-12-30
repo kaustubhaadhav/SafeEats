@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = yuko
+PRODUCT_NAME = SafeEats
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.foodsafety.yuko
+PRODUCT_BUNDLE_IDENTIFIER = com.foodsafety.safeeats
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2025 com.foodsafety. All rights reserved.

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yuko/core/utils/carcinogen_matcher.dart';
-import 'package:yuko/features/carcinogen/domain/entities/carcinogen.dart';
+import 'package:safeeats/core/utils/carcinogen_matcher.dart';
+import 'package:safeeats/features/carcinogen/domain/entities/carcinogen.dart';
 
 void main() {
   late CarcinogenMatcher matcher;

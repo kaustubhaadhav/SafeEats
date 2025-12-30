@@ -17,49 +17,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    _HomeContent(),
-    ScannerPage(),
-    HistoryPage(),
-    CarcinogenListPage(),
-    SettingsPage(),
-  ];
-
   @override
   void initState() {
     super.initState();
     // Load history on app start
     context.read<HistoryBloc>().add(const LoadHistoryEvent());
-    // Set up callback for navigation
-    _HomeContent._navigateToScanner = _navigateToScanner;
   }
   
-  void _navigateToScanner() {
+  void _navigateToTab(int index) {
     setState(() {
-      _currentIndex = 1;
+      _currentIndex = index;
     });
   }
 
   @override
-  void dispose() {
-    _HomeContent._navigateToScanner = null;
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Build pages with navigation callback passed properly
+    final List<Widget> pages = [
+      _HomeContent(onNavigateToScanner: () => _navigateToTab(1)),
+      const ScannerPage(),
+      const HistoryPage(),
+      const CarcinogenListPage(),
+      const SettingsPage(),
+    ];
+    
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: _pages,
+        children: pages,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onDestinationSelected: _navigateToTab,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),
@@ -93,10 +82,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent();
+  final VoidCallback onNavigateToScanner;
   
-  // Static callback for navigation - set by parent
-  static VoidCallback? _navigateToScanner;
+  const _HomeContent({required this.onNavigateToScanner});
 
   @override
   Widget build(BuildContext context) {
@@ -130,10 +118,7 @@ class _HomeContent extends StatelessWidget {
               subtitle: 'Scan a barcode to check ingredients',
               icon: Icons.qr_code_scanner,
               color: theme.colorScheme.primary,
-              onTap: () {
-                // Navigate to scanner tab using callback
-                _HomeContent._navigateToScanner?.call();
-              },
+              onTap: onNavigateToScanner,
             ),
             const SizedBox(height: 16),
 

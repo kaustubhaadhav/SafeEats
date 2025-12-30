@@ -16,11 +16,11 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
     StartScanningEvent event,
     Emitter<ScannerState> emit,
   ) {
-    emit(state.copyWith(
+    // Create new state preserving only flash and camera settings
+    emit(ScannerState(
       status: ScannerStatus.scanning,
-      detectedBarcode: null,
-      barcodeFormat: null,
-      errorMessage: null,
+      isFlashOn: state.isFlashOn,
+      isFrontCamera: state.isFrontCamera,
     ));
   }
 

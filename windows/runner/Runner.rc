@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.foodsafety" "\0"
-            VALUE "FileDescription", "yuko" "\0"
+            VALUE "FileDescription", "SafeEats" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "yuko" "\0"
+            VALUE "InternalName", "safeeats" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.foodsafety. All rights reserved." "\0"
-            VALUE "OriginalFilename", "yuko.exe" "\0"
-            VALUE "ProductName", "yuko" "\0"
+            VALUE "OriginalFilename", "safeeats.exe" "\0"
+            VALUE "ProductName", "SafeEats" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

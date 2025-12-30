@@ -1,3 +1,28 @@
+/// Dependency injection container for the SafeEats application.
+///
+/// This module configures and registers all dependencies using GetIt
+/// service locator. The initialization is performed at app startup
+/// and provides lazy singleton instances for most services.
+///
+/// ## Architecture
+///
+/// Dependencies are organized by feature following clean architecture:
+/// - **Core**: Network, database, configuration
+/// - **Features**: Scanner, Product, Carcinogen, History
+///
+/// ## Usage
+///
+/// ```dart
+/// // Initialize at app startup
+/// await di.init();
+///
+/// // Access dependencies anywhere
+/// final productBloc = sl<ProductBloc>();
+/// ```
+library;
+
+import 'dart:developer' as developer;
+
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
@@ -5,14 +30,17 @@ import 'package:path/path.dart' as path;
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 // Core
+import 'core/config/app_config.dart';
 import 'core/network/api_client.dart';
 import 'core/network/network_info.dart';
+import 'core/network/retry_helper.dart';
 
 // Features - Scanner
 import 'features/scanner/presentation/bloc/scanner_bloc.dart';
 
 // Features - Product
 import 'features/product/data/datasources/product_remote_datasource.dart';
+import 'features/product/data/datasources/product_backend_datasource.dart';
 import 'features/product/data/datasources/product_local_datasource.dart';
 import 'features/product/data/repositories/product_repository_impl.dart';
 import 'features/product/domain/repositories/product_repository.dart';
@@ -36,23 +64,106 @@ import 'features/history/domain/usecases/save_scan.dart';
 import 'features/history/domain/usecases/delete_scan.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
 
+/// Global service locator instance.
+///
+/// Use this to access registered dependencies throughout the app:
+/// ```dart
+/// final bloc = sl<ProductBloc>();
+/// final apiClient = sl<ApiClient>(instanceName: 'backend');
+/// ```
 final sl = GetIt.instance;
 
+/// Initializes all application dependencies.
+///
+/// This must be called before [runApp] in `main.dart`:
+/// ```dart
+/// void main() async {
+///   WidgetsFlutterBinding.ensureInitialized();
+///   await di.init();
+///   runApp(const SafeEatsApp());
+/// }
+/// ```
+///
+/// The initialization order is important:
+/// 1. Configuration (AppConfig)
+/// 2. Core services (Network, Database)
+/// 3. Data sources
+/// 4. Repositories
+/// 5. Use cases
+/// 6. BLoCs
 Future<void> init() async {
+  //! Configuration
+  sl.registerLazySingleton(() => AppConfig.instance);
+
   //! Core
-  // Network
-  sl.registerLazySingleton(() => Dio(BaseOptions(
-    baseUrl: 'https://world.openfoodfacts.org/api/v2',
-    connectTimeout: const Duration(seconds: 15),
-    receiveTimeout: const Duration(seconds: 15),
-    headers: {
-      'User-Agent': 'Yuko - Food Carcinogen Scanner - Android - Version 1.0',
-    },
-  )));
+  // Network - Backend API client (primary)
+  sl.registerLazySingleton<Dio>(() {
+    final config = sl<AppConfig>();
+    final dio = Dio(BaseOptions(
+      baseUrl: config.backendUrl,
+      connectTimeout: config.connectionTimeout,
+      receiveTimeout: config.receiveTimeout,
+      headers: {
+        'User-Agent': config.userAgent,
+        'Content-Type': 'application/json',
+        if (config.hasApiKey) 'X-API-Key': config.apiKey,
+      },
+    ));
+    
+    // Add logging interceptor in development
+    if (config.enableDebugLogging) {
+      dio.interceptors.add(LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        logPrint: (object) => developer.log('$object', name: 'DIO'),
+      ));
+    }
+    
+    return dio;
+  }, instanceName: 'backend');
+  
+  // Network - Open Food Facts API client (fallback)
+  sl.registerLazySingleton<Dio>(() {
+    final config = sl<AppConfig>();
+    return Dio(BaseOptions(
+      baseUrl: config.openFoodFactsUrl,
+      connectTimeout: config.connectionTimeout,
+      receiveTimeout: config.receiveTimeout,
+      headers: {
+        'User-Agent': config.userAgent,
+      },
+    ));
+  }, instanceName: 'openFoodFacts');
   
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-  sl.registerLazySingleton<ApiClient>(() => ApiClient(sl()));
+  
+  // Retry configuration
+  sl.registerLazySingleton<RetryConfig>(() {
+    final config = sl<AppConfig>();
+    return RetryConfig(
+      maxRetries: config.maxRetries,
+      initialDelay: config.retryInitialDelay,
+      backoffMultiplier: config.retryBackoffMultiplier,
+      maxDelay: config.retryMaxDelay,
+    );
+  });
+  
+  // API Clients with retry support
+  sl.registerLazySingleton<ApiClient>(
+    () => ApiClient(
+      sl<Dio>(instanceName: 'backend'),
+      retryConfig: sl<RetryConfig>(),
+    ),
+    instanceName: 'backend',
+  );
+  sl.registerLazySingleton<ApiClient>(
+    () => ApiClient(
+      sl<Dio>(instanceName: 'openFoodFacts'),
+      retryConfig: sl<RetryConfig>(),
+    ),
+    instanceName: 'openFoodFacts',
+  );
 
   // Database
   final database = await _initDatabase();
@@ -62,9 +173,13 @@ Future<void> init() async {
   sl.registerFactory(() => ScannerBloc());
 
   //! Features - Product
-  // Data sources
+  // Data sources - Backend (primary)
+  sl.registerLazySingleton<ProductBackendDataSource>(
+    () => ProductBackendDataSourceImpl(apiClient: sl<ApiClient>(instanceName: 'backend')),
+  );
+  // Data sources - Open Food Facts (fallback)
   sl.registerLazySingleton<ProductRemoteDataSource>(
-    () => ProductRemoteDataSourceImpl(apiClient: sl()),
+    () => ProductRemoteDataSourceImpl(apiClient: sl<ApiClient>(instanceName: 'openFoodFacts')),
   );
   sl.registerLazySingleton<ProductLocalDataSource>(
     () => ProductLocalDataSourceImpl(database: sl()),
@@ -73,6 +188,7 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(
+      backendDataSource: sl(),
       remoteDataSource: sl(),
       localDataSource: sl(),
       networkInfo: sl(),
@@ -137,7 +253,7 @@ Future<void> init() async {
 
 Future<Database> _initDatabase() async {
   final databasesPath = await getDatabasesPath();
-  final dbPath = path.join(databasesPath, 'yuko.db');
+  final dbPath = path.join(databasesPath, 'safeeats.db');
 
   return openDatabase(
     dbPath,

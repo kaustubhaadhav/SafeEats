@@ -10,8 +10,8 @@ import 'features/home/presentation/pages/home_page.dart';
 import 'features/product/presentation/pages/product_result_page.dart';
 import 'injection_container.dart';
 
-class YukoApp extends StatelessWidget {
-  const YukoApp({super.key});
+class SafeEatsApp extends StatelessWidget {
+  const SafeEatsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class YukoApp extends StatelessWidget {
         BlocProvider(create: (_) => sl<HistoryBloc>()..add(const LoadHistoryEvent())),
       ],
       child: MaterialApp(
-        title: 'Yuko',
+        title: 'SafeEats',
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,

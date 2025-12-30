@@ -1,5 +1,5 @@
-name: yuko
-description: Food Carcinogen Scanner - Scan food barcodes to check for known carcinogens
+name: safeeats
+description: SafeEats - Scan food barcodes to check for known carcinogens
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -23,19 +23,13 @@ dependencies:
   
   # Local Storage
   sqflite: ^2.3.0
-  shared_preferences: ^2.2.2
   path_provider: ^2.1.1
   
   # Barcode Scanner
   mobile_scanner: ^3.5.5
   
-  # UI
-  cached_network_image: ^3.3.0
-  shimmer: ^3.0.0
-  
   # Utils
   dartz: ^0.10.1
-  intl: ^0.18.1
   permission_handler: ^11.1.0
   path: ^1.8.3
 

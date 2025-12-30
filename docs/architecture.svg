@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: 16px sans-serif; fill: #666; }
+      .box-title { font: bold 14px sans-serif; fill: #fff; }
+      .box-text { font: 12px sans-serif; fill: #333; }
+      .arrow { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .layer-label { font: bold 12px sans-serif; fill: #888; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fafafa"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" class="title">SafeEats Architecture</text>
+  
+  <!-- Flutter App Layer -->
+  <rect x="50" y="70" width="700" height="150" rx="10" fill="#E3F2FD" stroke="#1976D2" stroke-width="2"/>
+  <text x="70" y="95" class="layer-label">FLUTTER APP</text>
+  
+  <!-- BLoC boxes -->
+  <g transform="translate(80, 110)">
+    <rect width="130" height="80" rx="5" fill="#1976D2"/>
+    <text x="65" y="25" text-anchor="middle" class="box-title">Scanner</text>
+    <text x="65" y="45" text-anchor="middle" class="box-title">BLoC</text>
+    <text x="65" y="65" text-anchor="middle" style="font: 10px sans-serif; fill: #B3E5FC;">Camera, Barcode</text>
+  </g>
+  
+  <g transform="translate(230, 110)">
+    <rect width="130" height="80" rx="5" fill="#1976D2"/>
+    <text x="65" y="25" text-anchor="middle" class="box-title">Product</text>
+    <text x="65" y="45" text-anchor="middle" class="box-title">BLoC</text>
+    <text x="65" y="65" text-anchor="middle" style="font: 10px sans-serif; fill: #B3E5FC;">Fetch, Display</text>
+  </g>
+  
+  <g transform="translate(380, 110)">
+    <rect width="130" height="80" rx="5" fill="#1976D2"/>
+    <text x="65" y="25" text-anchor="middle" class="box-title">Carcinogen</text>
+    <text x="65" y="45" text-anchor="middle" class="box-title">BLoC</text>
+    <text x="65" y="65" text-anchor="middle" style="font: 10px sans-serif; fill: #B3E5FC;">Match, Analyze</text>
+  </g>
+  
+  <g transform="translate(530, 110)">
+    <rect width="130" height="80" rx="5" fill="#1976D2"/>
+    <text x="65" y="25" text-anchor="middle" class="box-title">History</text>
+    <text x="65" y="45" text-anchor="middle" class="box-title">BLoC</text>
+    <text x="65" y="65" text-anchor="middle" style="font: 10px sans-serif; fill: #B3E5FC;">Save, Retrieve</text>
+  </g>
+  
+  <!-- Arrows between BLoCs -->
+  <path d="M 210 150 L 230 150" class="arrow"/>
+  <path d="M 360 150 L 380 150" class="arrow"/>
+  <path d="M 510 150 L 530 150" class="arrow"/>
+  
+  <!-- Arrow to Backend -->
+  <path d="M 400 220 L 400 270" class="arrow"/>
+  <text x="420" y="250" style="font: 11px sans-serif; fill: #666;">POST /scan</text>
+  
+  <!-- Backend Layer -->
+  <rect x="100" y="280" width="600" height="140" rx="10" fill="#E8F5E9" stroke="#388E3C" stroke-width="2"/>
+  <text x="120" y="305" class="layer-label">FASTAPI BACKEND</text>
+  
+  <!-- Backend boxes -->
+  <g transform="translate(130, 320)">
+    <rect width="150" height="70" rx="5" fill="#388E3C"/>
+    <text x="75" y="25" text-anchor="middle" class="box-title">Normalize</text>
+    <text x="75" y="45" text-anchor="middle" class="box-title">Ingredients</text>
+    <text x="75" y="62" text-anchor="middle" style="font: 9px sans-serif; fill: #C8E6C9;">E-numbers, Aliases</text>
+  </g>
+  
+  <g transform="translate(320, 320)">
+    <rect width="150" height="70" rx="5" fill="#388E3C"/>
+    <text x="75" y="25" text-anchor="middle" class="box-title">Risk Rules</text>
+    <text x="75" y="45" text-anchor="middle" class="box-title">(Versioned)</text>
+    <text x="75" y="62" text-anchor="middle" style="font: 9px sans-serif; fill: #C8E6C9;">IARC + Prop 65</text>
+  </g>
+  
+  <g transform="translate(510, 320)">
+    <rect width="150" height="70" rx="5" fill="#388E3C"/>
+    <text x="75" y="25" text-anchor="middle" class="box-title">SQLite</text>
+    <text x="75" y="45" text-anchor="middle" class="box-title">Cache</text>
+    <text x="75" y="62" text-anchor="middle" style="font: 9px sans-serif; fill: #C8E6C9;">24h TTL</text>
+  </g>
+  
+  <!-- Arrows between backend components -->
+  <path d="M 280 355 L 320 355" class="arrow"/>
+  <path d="M 470 355 L 510 355" class="arrow"/>
+  
+  <!-- Arrow to External -->
+  <path d="M 400 420 L 400 470" class="arrow"/>
+  
+  <!-- External API -->
+  <rect x="200" y="480" width="400" height="80" rx="10" fill="#FFF3E0" stroke="#F57C00" stroke-width="2"/>
+  <text x="220" y="505" class="layer-label">EXTERNAL API</text>
+  <text x="400" y="530" text-anchor="middle" style="font: bold 16px sans-serif; fill: #E65100;">Open Food Facts</text>
+  <text x="400" y="550" text-anchor="middle" style="font: 12px sans-serif; fill: #666;">world.openfoodfacts.org</text>
+  
+  <!-- Legend -->
+  <g transform="translate(620, 480)">
+    <text x="0" y="15" style="font: bold 11px sans-serif; fill: #333;">Legend</text>
+    <rect x="0" y="25" width="15" height="15" fill="#1976D2"/>
+    <text x="20" y="37" style="font: 10px sans-serif; fill: #333;">Flutter</text>
+    <rect x="0" y="45" width="15" height="15" fill="#388E3C"/>
+    <text x="20" y="57" style="font: 10px sans-serif; fill: #333;">Backend</text>
+    <rect x="0" y="65" width="15" height="15" fill="#F57C00"/>
+    <text x="20" y="77" style="font: 10px sans-serif; fill: #333;">External</text>
+  </g>
+  
+  <!-- Version label -->
+  <text x="750" y="590" text-anchor="end" style="font: 10px sans-serif; fill: #999;">Rules v1.0.0</text>
+</svg>

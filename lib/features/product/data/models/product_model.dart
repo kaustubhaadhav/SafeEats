@@ -1,6 +1,7 @@
 import 'dart:convert';
 import '../../domain/entities/product.dart';
 import '../../domain/entities/ingredient.dart';
+import 'backend_response_model.dart';
 
 class ProductModel extends Product {
   const ProductModel({
@@ -62,6 +63,29 @@ class ProductModel extends Product {
 
   factory ProductModel.fromJsonString(String jsonString) {
     return ProductModel.fromJson(jsonDecode(jsonString) as Map<String, dynamic>);
+  }
+
+  /// Creates a ProductModel from a backend scan response.
+  /// The backend response includes pre-analyzed ingredient data with risk levels.
+  factory ProductModel.fromBackendResponse(BackendScanResponse response, String barcode) {
+    return ProductModel(
+      barcode: barcode,
+      name: response.productName,
+      brand: null, // Backend doesn't return brand currently
+      imageUrl: null, // Backend doesn't return image currently
+      ingredients: response.ingredients.map((i) => IngredientModel(
+        id: i.canonical,
+        name: i.raw,
+        percent: null,
+        isVegan: null,
+        isVegetarian: null,
+        isPalmOilFree: null,
+      )).toList(),
+      ingredientsText: response.ingredients.map((i) => i.raw).join(', '),
+      nutriments: null,
+      quantity: null,
+      categories: null,
+    );
   }
 
   factory ProductModel.fromEntity(Product product) {

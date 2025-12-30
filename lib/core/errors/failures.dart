@@ -28,3 +28,7 @@ class NotFoundFailure extends Failure {
 class InvalidInputFailure extends Failure {
   const InvalidInputFailure([super.message = 'Invalid input']);
 }
+
+class InvalidBarcodeFailure extends Failure {
+  const InvalidBarcodeFailure([super.message = 'Invalid barcode format']);
+}
