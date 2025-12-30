@@ -21,7 +21,7 @@ we use the following priority order (higher = more authoritative):
 5. IARC Group 3 (not classifiable)
 """
 
-from datetime import date
+
 from typing import TypedDict, Optional
 
 

@@ -5,28 +5,28 @@ class AppColors {
   static const primary = Color(0xFF6366F1);
   static const primaryLight = Color(0xFF818CF8);
   static const primaryDark = Color(0xFF4F46E5);
-  
+
   // Secondary colors
   static const secondary = Color(0xFF10B981);
   static const secondaryLight = Color(0xFF34D399);
-  
+
   // Background colors
   static const background = Color(0xFFF8FAFC);
   static const surface = Colors.white;
   static const surfaceDark = Color(0xFF1E293B);
-  
+
   // Risk level colors
   static const riskSafe = Color(0xFF22C55E);
   static const riskLow = Color(0xFF84CC16);
   static const riskMedium = Color(0xFFF59E0B);
   static const riskHigh = Color(0xFFF97316);
   static const riskCritical = Color(0xFFEF4444);
-  
+
   // Text colors
   static const textPrimary = Color(0xFF1E293B);
   static const textSecondary = Color(0xFF64748B);
   static const textLight = Color(0xFF94A3B8);
-  
+
   // Other
   static const error = Color(0xFFDC2626);
   static const divider = Color(0xFFE2E8F0);
@@ -57,7 +57,7 @@ class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -110,7 +110,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.surface,
@@ -121,7 +122,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surface,
-        indicatorColor: AppColors.primaryLight.withValues(alpha: 0.2),
+        indicatorColor: AppColors.primaryLight.withOpacity(0.2),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
@@ -165,7 +166,7 @@ class AppTheme {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -185,7 +186,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surfaceDark,
-        indicatorColor: AppColors.primaryLight.withValues(alpha: 0.2),
+        indicatorColor: AppColors.primaryLight.withOpacity(0.2),
       ),
     );
   }

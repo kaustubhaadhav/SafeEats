@@ -8,7 +8,7 @@ Tests cover:
 4. Version information
 """
 
-import pytest
+
 import sys
 from pathlib import Path
 
@@ -22,7 +22,6 @@ from rules import (
     get_rules_version,
     get_rules_metadata,
     RULES_VERSION,
-    RULES_METADATA,
     RISK_RULES,
 )
 

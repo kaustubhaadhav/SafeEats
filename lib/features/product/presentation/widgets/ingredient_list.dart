@@ -85,10 +85,10 @@ class _IngredientChip extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: theme.colorScheme.error.withValues(alpha: 0.1),
+          color: theme.colorScheme.error.withOpacity(0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: theme.colorScheme.error.withValues(alpha: 0.5),
+            color: theme.colorScheme.error.withOpacity(0.5),
           ),
         ),
         child: Row(
@@ -280,7 +280,7 @@ class IngredientTextView extends StatelessWidget {
           text: remaining.substring(earliestMatch, earliestMatch + matchLength),
           style: TextStyle(
             backgroundColor:
-                Theme.of(context).colorScheme.error.withValues(alpha: 0.2),
+                Theme.of(context).colorScheme.error.withOpacity(0.2),
             color: Theme.of(context).colorScheme.error,
             fontWeight: FontWeight.bold,
           ),

@@ -15,7 +15,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from db import init_db, get_cached_scan, cache_scan
-from rules import get_risk, get_risk_with_source, get_overall_risk, get_rules_version, get_rules_metadata, RULES_VERSION
+from rules import get_risk_with_source, get_overall_risk, get_rules_metadata, RULES_VERSION
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

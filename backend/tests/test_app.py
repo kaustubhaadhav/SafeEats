@@ -8,16 +8,15 @@ Tests cover:
 4. Ingredient normalization
 """
 
-import pytest
+
 import sys
 from pathlib import Path
-from unittest.mock import patch, AsyncMock
+
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from fastapi.testclient import TestClient
-from app import app, validate_barcode, normalize_ingredient, parse_ingredients
+from app import validate_barcode, normalize_ingredient, parse_ingredients
 
 
 class TestBarcodeValidation:

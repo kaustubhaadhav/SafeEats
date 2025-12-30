@@ -251,10 +251,10 @@ class _RiskHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         border: Border(
           bottom: BorderSide(
-            color: color.withValues(alpha: 0.3),
+            color: color.withOpacity(0.3),
             width: 2,
           ),
         ),
@@ -298,10 +298,10 @@ class _SafeProductBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.1),
+        color: Colors.green.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.green.withValues(alpha: 0.3),
+          color: Colors.green.withOpacity(0.3),
         ),
       ),
       child: Row(
@@ -353,10 +353,10 @@ class _MissingIngredientsWarning extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.1),
+        color: Colors.orange.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.orange.withValues(alpha: 0.3),
+          color: Colors.orange.withOpacity(0.3),
         ),
       ),
       child: Row(

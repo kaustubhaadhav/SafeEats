@@ -63,7 +63,7 @@ class RiskIndicator extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.15),
+            color: color.withOpacity(0.15),
             shape: BoxShape.circle,
             border: Border.all(
               color: color,
@@ -163,9 +163,9 @@ class RiskBadge extends StatelessWidget {
         vertical: compact ? 4 : 6,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
+        color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(compact ? 4 : 8),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
+        border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -273,7 +273,7 @@ class RiskMeter extends StatelessWidget {
                     right: level.value < RiskLevel.values.length - 1 ? 2 : 0,
                   ),
                   decoration: BoxDecoration(
-                    color: isActive ? levelColor : levelColor.withValues(alpha: 0.2),
+                    color: isActive ? levelColor : levelColor.withOpacity(0.2),
                   ),
                 ),
               );
